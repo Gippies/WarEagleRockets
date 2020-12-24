@@ -30,5 +30,5 @@ $canvas.attr("height", getClientHeight().toString());
 $('#rect1').attr("y", (getClientHeight() - parseInt($('#rect1').attr("height"))).toString());
 $('#rect2').attr("x", (getClientWidth() / 2 - parseInt($('#rect2').attr("width")) / 2).toString());
 $('#rect2').attr("y", (getClientHeight() - parseInt($('#rect2').attr("height"))).toString());
-$('#rect3').attr("x", (getClientWidth() - parseInt($('#rect3').attr("width")) / 2).toString());
+$('#rect3').attr("x", (getClientWidth() - parseInt($('#rect3').attr("width"))).toString());
 $('#rect3').attr("y", (getClientHeight() - parseInt($('#rect3').attr("height"))).toString());
