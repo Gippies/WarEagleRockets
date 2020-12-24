@@ -3,7 +3,8 @@ let $canvas = $('#canvas'),
     $rect = $('#rect'),
     $plusOneBtn = $('#plusOneBtn'),
     numRockets = 4,
-    btnHeightOffset = 50;
+    btnHeightOffset = 50,
+    rocketSpeed = 50;
 
 $(window).on("load resize", function () {
     let rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1);
@@ -31,6 +32,6 @@ $(window).on("load resize", function () {
     $('.btn').on("click", function (event) {
         event.preventDefault();
         let $currentRocket = $($(this).data("rocket"));
-        $currentRocket.attr("y", (parseInt($currentRocket.attr("y")) - 50).toString());
+        $currentRocket.attr("y", (parseInt($currentRocket.attr("y")) - rocketSpeed).toString());
     });
 });
