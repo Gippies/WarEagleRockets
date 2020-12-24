@@ -11,7 +11,7 @@ $(window).on("load resize", function () {
         let $newRect = $rect.clone();
         $newRect.attr("id", "rect" + i.toString());
         $newRect.attr("x", (($(window).width() * (1 / 12) + rocketSeparation * i) - parseInt($newRect.attr("width")) * i / (numRockets - 1)).toString());
-        $newRect.attr("y", ($canvas.attr("height") - $rect.attr("height")).toString());
+        $newRect.attr("y", (($canvas.attr("height") - $canvas.attr("height") * (1 / 5)) - $rect.attr("height")).toString());
         $canvas.append($newRect);
     }
 });
