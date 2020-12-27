@@ -2,9 +2,11 @@ let $rocketsDiv = $('#rocketsDiv'),
     $buttonsDiv = $('#buttonsDiv'),
     $initialRocket = $('#initialRocket'),
     $plusOneBtn = $('#plusOneBtn'),
+    $minusOneBtn = $('#minusOneBtn'),
     rocketYPositions = {},
     numRockets = 4,
     rocketWidth = 200,  // Be sure to synchronize this in the css file!!
+    btnWidth = 45,  // Be sure this remains consistent with the width of the buttons!!
     btnYStartPosition = 18,
     rocketYStartPosition = 11,
     windowHeightDifference = 1 / 20;
@@ -15,7 +17,8 @@ $(window).on("load resize", function () {
     $buttonsDiv.empty();
     for (let i = 0; i < numRockets; i++) {
         let $newRocket = $initialRocket.clone(),
-            $newPlusOneBtn = $plusOneBtn.clone();
+            $newPlusOneBtn = $plusOneBtn.clone(),
+            $newMinusOneBtn = $minusOneBtn.clone();
         $newRocket.attr("id", "rocket" + i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
         if (rocketYPositions[i] === undefined) {
@@ -33,15 +36,30 @@ $(window).on("load resize", function () {
             newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference;
         $newPlusOneBtn.css({"left": newBtnX.toString() + "px", "top": newBtnY.toString() + "px"});
 
+        $newMinusOneBtn.attr("id", "minusOneBtn" + i.toString());
+        $newMinusOneBtn.attr("data-rocket-id", "#rocket" + i.toString());
+        $newMinusOneBtn.attr("data-rocket-number", i.toString());
+        let newMinusBtnX = newBtnX - btnWidth - 10;
+        $newMinusOneBtn.css({"left": newMinusBtnX.toString() + "px", "top": newBtnY.toString() + "px"});
+
         $rocketsDiv.append($newRocket);
         $buttonsDiv.append($newPlusOneBtn);
+        $buttonsDiv.append($newMinusOneBtn);
     }
 
-    $('.btn').on("click", function (e) {
+    $('.btn-plus-one').on("click", function (e) {
         e.preventDefault();
         let $currentRocket = $($(this).data("rocket-id")),
             i = parseInt($(this).data("rocket-number"));
         rocketYPositions[i]--;
+        $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
+    });
+
+    $('.btn-minus-one').on("click", function (e) {
+        e.preventDefault();
+        let $currentRocket = $($(this).data("rocket-id")),
+            i = parseInt($(this).data("rocket-number"));
+        rocketYPositions[i]++;
         $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
     });
 });
