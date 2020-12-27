@@ -3,6 +3,7 @@ let $rocketsDiv = $('#rocketsDiv'),
     $initialRocket = $('#initialRocket'),
     $plusOneBtn = $('#plusOneBtn'),
     $minusOneBtn = $('#minusOneBtn'),
+    $resetBtn = $('#resetBtn'),
     rocketYPositions = {},
     numRockets = 4,
     btnYStartPosition = 18,
@@ -12,13 +13,17 @@ let $rocketsDiv = $('#rocketsDiv'),
 $(window).on("load resize", function () {
     let rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1),
         rocketWidth = parseInt($('.rocket').css("width")),
-        btnMinusOneBtnWidth = parseInt($('.btn-minus-one').css("width"));
+        minusOneBtnWidth = parseInt($('.btn-minus-one').css("width")),
+        resetBtnHeight = parseInt($('.btn-reset').css("height"));
+
     $rocketsDiv.empty();
     $buttonsDiv.empty();
+
     for (let i = 0; i < numRockets; i++) {
         let $newRocket = $initialRocket.clone(),
             $newPlusOneBtn = $plusOneBtn.clone(),
-            $newMinusOneBtn = $minusOneBtn.clone();
+            $newMinusOneBtn = $minusOneBtn.clone(),
+            $newResetBtn = $resetBtn.clone();
         $newRocket.attr("id", "rocket" + i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
         if (rocketYPositions[i] === undefined) {
@@ -39,12 +44,20 @@ $(window).on("load resize", function () {
         $newMinusOneBtn.attr("id", "minusOneBtn" + i.toString());
         $newMinusOneBtn.attr("data-rocket-id", "#rocket" + i.toString());
         $newMinusOneBtn.attr("data-rocket-number", i.toString());
-        let newMinusBtnX = newBtnX - btnMinusOneBtnWidth - 10;
+        let newMinusBtnX = newBtnX - minusOneBtnWidth - 10;
         $newMinusOneBtn.css({"left": newMinusBtnX.toString() + "px", "top": newBtnY.toString() + "px"});
+
+        $newResetBtn.attr("id", "resetBtn" + i.toString());
+        $newResetBtn.attr("data-rocket-id", "#rocket" + i.toString());
+        $newResetBtn.attr("data-rocket-number", i.toString());
+        let newResetBtnX = newMinusBtnX + minusOneBtnWidth / 2,
+            newResetBtnY = newBtnY + resetBtnHeight + 10;
+        $newResetBtn.css({"left": newResetBtnX.toString() + "px", "top": newResetBtnY.toString() + "px"});
 
         $rocketsDiv.append($newRocket);
         $buttonsDiv.append($newPlusOneBtn);
         $buttonsDiv.append($newMinusOneBtn);
+        $buttonsDiv.append($newResetBtn);
     }
 
     $('.btn-points').on("click", function (e) {
@@ -56,6 +69,9 @@ $(window).on("load resize", function () {
         }
         else if ($(this).hasClass("btn-minus-one")) {
             rocketYPositions[i]++;
+        }
+        else if ($(this).hasClass("btn-reset")) {
+            rocketYPositions[i] = rocketYStartPosition;
         }
         $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
     });
