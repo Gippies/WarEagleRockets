@@ -5,14 +5,14 @@ let $rocketsDiv = $('#rocketsDiv'),
     $minusOneBtn = $('#minusOneBtn'),
     rocketYPositions = {},
     numRockets = 4,
-    rocketWidth = 200,  // Be sure to synchronize this in the css file!!
-    btnPointsWidth = 45,  // Be sure this remains consistent with the width of the buttons!!
     btnYStartPosition = 18,
     rocketYStartPosition = 11,
     windowHeightDifference = 1 / 20;
 
 $(window).on("load resize", function () {
-    let rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1);
+    let rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1),
+        rocketWidth = parseInt($('.rocket').css("width")),
+        btnMinusOneBtnWidth = parseInt($('.btn-minus-one').css("width"));
     $rocketsDiv.empty();
     $buttonsDiv.empty();
     for (let i = 0; i < numRockets; i++) {
@@ -39,7 +39,7 @@ $(window).on("load resize", function () {
         $newMinusOneBtn.attr("id", "minusOneBtn" + i.toString());
         $newMinusOneBtn.attr("data-rocket-id", "#rocket" + i.toString());
         $newMinusOneBtn.attr("data-rocket-number", i.toString());
-        let newMinusBtnX = newBtnX - btnPointsWidth - 10;
+        let newMinusBtnX = newBtnX - btnMinusOneBtnWidth - 10;
         $newMinusOneBtn.css({"left": newMinusBtnX.toString() + "px", "top": newBtnY.toString() + "px"});
 
         $rocketsDiv.append($newRocket);
