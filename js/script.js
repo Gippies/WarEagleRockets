@@ -11,9 +11,9 @@ let $addRocketBtn = $('#addRocketBtn'),
     rocketYPositions = {},
     numRockets = 4,
     btnPositionOffset = 10,
-    btnYStartPosition = 18,
-    rocketYStartPosition = 11,
-    windowHeightDifference = 1 / 20;
+    btnYStartPosition = 25,
+    rocketYStartPosition = 15,
+    windowHeightDifference = 1 / 28;
 
 function rebuildScreen() {
     let rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1),
