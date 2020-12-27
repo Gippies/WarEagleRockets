@@ -6,7 +6,7 @@ let $rocketsDiv = $('#rocketsDiv'),
     rocketYPositions = {},
     numRockets = 4,
     rocketWidth = 200,  // Be sure to synchronize this in the css file!!
-    btnWidth = 45,  // Be sure this remains consistent with the width of the buttons!!
+    btnPointsWidth = 45,  // Be sure this remains consistent with the width of the buttons!!
     btnYStartPosition = 18,
     rocketYStartPosition = 11,
     windowHeightDifference = 1 / 20;
@@ -39,7 +39,7 @@ $(window).on("load resize", function () {
         $newMinusOneBtn.attr("id", "minusOneBtn" + i.toString());
         $newMinusOneBtn.attr("data-rocket-id", "#rocket" + i.toString());
         $newMinusOneBtn.attr("data-rocket-number", i.toString());
-        let newMinusBtnX = newBtnX - btnWidth - 10;
+        let newMinusBtnX = newBtnX - btnPointsWidth - 10;
         $newMinusOneBtn.css({"left": newMinusBtnX.toString() + "px", "top": newBtnY.toString() + "px"});
 
         $rocketsDiv.append($newRocket);
@@ -47,19 +47,16 @@ $(window).on("load resize", function () {
         $buttonsDiv.append($newMinusOneBtn);
     }
 
-    $('.btn-plus-one').on("click", function (e) {
+    $('.btn-points').on("click", function (e) {
         e.preventDefault();
         let $currentRocket = $($(this).data("rocket-id")),
             i = parseInt($(this).data("rocket-number"));
-        rocketYPositions[i]--;
-        $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
-    });
-
-    $('.btn-minus-one').on("click", function (e) {
-        e.preventDefault();
-        let $currentRocket = $($(this).data("rocket-id")),
-            i = parseInt($(this).data("rocket-number"));
-        rocketYPositions[i]++;
+        if ($(this).hasClass("btn-plus-one")) {
+            rocketYPositions[i]--;
+        }
+        else if ($(this).hasClass("btn-minus-one")) {
+            rocketYPositions[i]++;
+        }
         $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
     });
 });
