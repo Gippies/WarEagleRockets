@@ -76,7 +76,7 @@ function rebuildScreen() {
         $newTeamLbl.css({"left": newTeamLblX.toString() + "px", "top": newTeamLblY.toString() + "px"});
 
         $newScoreLbl.attr("id", "scoreLbl" + i.toString());
-        $newScoreLbl.text("Score: " + (rocketYStartPosition - rocketYPositions[i]));
+        $newScoreLbl.text("Score: " + (rocketYStartPosition - rocketYPositions[i]).toString());
         $newScoreLbl.css({"left": newBtnX.toString() + "px", "top": newTeamLblY.toString() + "px"});
 
         $rocketsDiv.append($newRocket);
@@ -107,7 +107,7 @@ function rebuildScreen() {
         else if ($(this).hasClass("btn-reset")) {
             rocketYPositions[i] = rocketYStartPosition;
         }
-        $currentScoreLbl.text("Score: " + (rocketYStartPosition - rocketYPositions[i]));
+        $currentScoreLbl.text("Score: " + (rocketYStartPosition - rocketYPositions[i]).toString());
         $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
     });
 }
@@ -133,7 +133,7 @@ $resetAllBtn.on("click", function (e) {
     e.preventDefault();
     for (let i = 0; i < numRockets; i++) {
         rocketYPositions[i] = rocketYStartPosition;
-        $('#scoreLbl' + i.toString()).text("Score: " + (rocketYStartPosition - rocketYPositions[i]));
+        $('#scoreLbl' + i.toString()).text("Score: " + (rocketYStartPosition - rocketYPositions[i]).toString());
         $('#rocket' + i.toString()).css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
     }
 });
