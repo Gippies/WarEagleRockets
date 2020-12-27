@@ -1,5 +1,6 @@
 let $addRocketBtn = $('#addRocketBtn'),
     $removeRocketBtn = $('#removeRocketBtn'),
+    $rocketNumLbl = $('#rocketNumLbl'),
     $rocketsDiv = $('#rocketsDiv'),
     $buttonsDiv = $('#buttonsDiv'),
     $initialRocket = $('#initialRocket'),
@@ -65,6 +66,7 @@ function rebuildScreen() {
     let newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference;
     $addRocketBtn.css("top", newBtnY.toString() + "px");
     $removeRocketBtn.css("top", (newBtnY + parseInt($addRocketBtn.css("height")) + 10).toString() + "px");
+    $rocketNumLbl.css("top", (newBtnY - parseInt($rocketNumLbl.css("height")) - 10).toString() + "px");
 
     $('.btn-points').on("click", function (e) {
         e.preventDefault();
@@ -94,6 +96,7 @@ $('.btn-rockets').on("click", function (e) {
     else if ($(this).hasClass("btn-minus-one")) {
         numRockets--;
     }
+    $rocketNumLbl.text("Rockets: " + numRockets.toString());
     rocketYPositions = {};
     rebuildScreen();
 })
