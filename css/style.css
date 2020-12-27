@@ -5,13 +5,13 @@ body {
     background-attachment: fixed;
     background-size: 100% 100%;
 }
-rect {
-    fill: rgb(255, 0, 0);
-    stroke-width: 3;
-    stroke: rgb(0, 0, 0);
-}
 button {
     position: absolute;
     top: 0;
     left: 0;
+}
+.rocket {
+    position: absolute;
+    width: 200px;  /* Be sure to synchronize this with the javascript!! */
+    height: 300px;
 }
