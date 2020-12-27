@@ -21,3 +21,9 @@ h5 {
     width: 200px;
     height: 300px;
 }
+.fire {
+    transform: rotate(90deg);
+    position: absolute;
+    width: 100px;
+    height: 80px;
+}
