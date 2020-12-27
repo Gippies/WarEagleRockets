@@ -1,4 +1,6 @@
-let $rocketsDiv = $('#rocketsDiv'),
+let $addRocketBtn = $('#addRocketBtn'),
+    $removeRocketBtn = $('#removeRocketBtn'),
+    $rocketsDiv = $('#rocketsDiv'),
     $buttonsDiv = $('#buttonsDiv'),
     $initialRocket = $('#initialRocket'),
     $plusOneBtn = $('#plusOneBtn'),
@@ -10,7 +12,7 @@ let $rocketsDiv = $('#rocketsDiv'),
     rocketYStartPosition = 11,
     windowHeightDifference = 1 / 20;
 
-$(window).on("load resize", function () {
+function rebuildScreen() {
     let rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1),
         rocketWidth = parseInt($('.rocket').css("width")),
         minusOneBtnWidth = parseInt($('.btn-minus-one').css("width")),
@@ -60,6 +62,10 @@ $(window).on("load resize", function () {
         $buttonsDiv.append($newResetBtn);
     }
 
+    let newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference;
+    $addRocketBtn.css("top", newBtnY.toString() + "px");
+    $removeRocketBtn.css("top", (newBtnY + parseInt($addRocketBtn.css("height")) + 10).toString() + "px");
+
     $('.btn-points').on("click", function (e) {
         e.preventDefault();
         let $currentRocket = $($(this).data("rocket-id")),
@@ -75,4 +81,19 @@ $(window).on("load resize", function () {
         }
         $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
     });
+}
+
+$(window).on("load resize", function () {
+    rebuildScreen();
 });
+
+$('.btn-rockets').on("click", function (e) {
+    if ($(this).hasClass("btn-plus-one")) {
+        numRockets++;
+    }
+    else if ($(this).hasClass("btn-minus-one")) {
+        numRockets--;
+    }
+    rocketYPositions = {};
+    rebuildScreen();
+})
