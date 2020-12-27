@@ -93,7 +93,7 @@ $('.btn-rockets').on("click", function (e) {
     if ($(this).hasClass("btn-plus-one")) {
         numRockets++;
     }
-    else if ($(this).hasClass("btn-minus-one")) {
+    else if ($(this).hasClass("btn-minus-one") && numRockets > 2) {
         numRockets--;
     }
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
