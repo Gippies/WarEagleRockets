@@ -64,10 +64,10 @@ $(window).on("load resize", function () {
         e.preventDefault();
         let $currentRocket = $($(this).data("rocket-id")),
             i = parseInt($(this).data("rocket-number"));
-        if ($(this).hasClass("btn-plus-one")) {
+        if ($(this).hasClass("btn-plus-one") && rocketYPositions[i] > 0) {
             rocketYPositions[i]--;
         }
-        else if ($(this).hasClass("btn-minus-one")) {
+        else if ($(this).hasClass("btn-minus-one") && rocketYPositions[i] < rocketYStartPosition) {
             rocketYPositions[i]++;
         }
         else if ($(this).hasClass("btn-reset")) {
