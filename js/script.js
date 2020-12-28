@@ -13,9 +13,9 @@ const $addRocketBtn = $('#addRocketBtn'),
     $resetBtn = $('#resetBtn'),
     firePositionOffset = 25,
     btnPositionOffset = 10,
-    btnYStartPosition = 26,
+    btnYStartPosition = 33,
     rocketYStartPosition = 15,
-    windowHeightDifference = 1 / 28;
+    windowHeightDifference = 1 / 35;
 
 let rocketYPositions = {},
     numRockets = 4;
