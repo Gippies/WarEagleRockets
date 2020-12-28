@@ -26,7 +26,9 @@ function rebuildScreen() {
         rocketWidth = parseInt($rocket.css("width")),
         rocketHeight = parseInt($rocket.css("height")),
         minusOneBtnWidth = parseInt($('.btn-minus-one').css("width")),
-        resetBtnHeight = parseInt($('.btn-reset').css("height")),
+        $resetBtnTemp = $('.btn-reset'),
+        resetBtnWidth = parseInt($resetBtnTemp.css("width")),
+        resetBtnHeight = parseInt($resetBtnTemp.css("height")),
         $lblTeam = $('.lbl-team'),
         teamLblWidth = parseInt($lblTeam.css("width")),
         teamLblHeight = parseInt($lblTeam.css("height"));
@@ -85,7 +87,7 @@ function rebuildScreen() {
         $newResetBtn.attr("data-score-id", "#scoreLbl" + i.toString());
         $newResetBtn.attr("data-fire-id", "#fire" + i.toString());
         $newResetBtn.attr("data-rocket-number", i.toString());
-        const newResetBtnX = newMinusBtnX + minusOneBtnWidth / 2,
+        const newResetBtnX = newMinusBtnX + minusOneBtnWidth + btnPositionOffset / 2 - resetBtnWidth / 2,
             newResetBtnY = newBtnY + resetBtnHeight + btnPositionOffset;
         $newResetBtn.css({"left": newResetBtnX.toString() + "px", "top": newResetBtnY.toString() + "px"});
 
