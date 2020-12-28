@@ -164,7 +164,7 @@ $resetAllBtn.on("click", function (e) {
     e.preventDefault();
     for (let i = 0; i < numRockets; i++) {
         rocketYPositions[i] = rocketYStartPosition;
-        $('#scoreLbl' + i.toString()).text("Score: " + (rocketYStartPosition - rocketYPositions[i]).toString());
+        $('#scoreLbl' + i.toString()).text("Score: 0");
         const $currentRocket = $('#rocket' + i.toString()),
             $currentFire = $('#fire' + i.toString());
         $currentRocket.css("top", ($(window).height() * rocketYPositions[i] * windowHeightDifference).toString() + "px");
