@@ -173,7 +173,7 @@ $resetAllBtn.on("click", function (e) {
             $currentRocket = $('#rocket' + i.toString()),
             $currentFire = $('#fire' + i.toString());
         $currentScoreLbl.text("Score: 0");
-        $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[i] * rocketHeightDifference).toString() + "px");
+        $currentRocket.css("top", rocketYStartPosition.toString() + "px");
         $currentFire.css("top", (parseInt($currentRocket.css("top")) + parseInt($currentRocket.css("height")) - firePositionOffset).toString() + "px");
         $currentFire.hide();
     }
