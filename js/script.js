@@ -22,6 +22,10 @@ let rocketPoints = {},
     rocketYStartPosition = -1,
     numRockets = 4;
 
+/**
+ * Clears the screen of rockets and their buttons and then re-creates them and places them in their appropriate
+ * positions.
+ */
 function rebuildScreen() {
     const rocketSeparation = ($(window).width() * 10 / 12) / (numRockets - 1),
         $rocket = $('.rocket'),
@@ -122,6 +126,7 @@ function rebuildScreen() {
     $resetAllBtn.css("top", newBtnY.toString() + "px");
     $rocketNumLbl.css("top", (newAddBtnY - parseInt($rocketNumLbl.css("height")) - btnPositionOffset).toString() + "px");
 
+    // This is for the buttons and labels beneath the rockets.
     $('.btn-points').on("click", function (e) {
         e.preventDefault();
         const $currentRocket = $($(this).data("rocket-id")),
@@ -153,6 +158,7 @@ $(window).on("load resize", function () {
     rebuildScreen();
 });
 
+// This is for the "Add Rocket" and "Remove Rocket" buttons.
 $('.btn-rockets').on("click", function (e) {
     e.preventDefault();
     if ($(this).hasClass("btn-plus-one")) {
