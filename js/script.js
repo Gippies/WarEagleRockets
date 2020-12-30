@@ -14,7 +14,8 @@ const $addRocketBtn = $('#addRocketBtn'),
     firePositionOffset = 25,
     btnPositionOffset = 10,
     btnYStartPosition = 33,
-    rocketHeightDifference = 1 / 15,
+    maxRocketPoints = 15,
+    rocketHeightDifference = 1 / maxRocketPoints,
     windowHeightDifference = 1 / 35;
 
 let rocketPoints = {},
@@ -127,7 +128,7 @@ function rebuildScreen() {
             $currentFire = $($(this).data("fire-id")),
             $currentScoreLbl = $($(this).data("score-id")),
             i = parseInt($(this).data("rocket-number"));
-        if ($(this).hasClass("btn-plus-one") && rocketPoints[i] < 15) {
+        if ($(this).hasClass("btn-plus-one") && rocketPoints[i] < maxRocketPoints) {
             rocketPoints[i]++;
         }
         else if ($(this).hasClass("btn-minus-one") && rocketPoints[i] > 0) {
