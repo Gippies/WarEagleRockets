@@ -14,7 +14,7 @@ const $addRocketBtn = $('#addRocketBtn'),
     firePositionOffset = 25,
     btnPositionOffset = 10,
     btnYStartPosition = 33,
-    maxRocketPoints = 15,
+    maxRocketPoints = 18,
     rocketHeightDifference = 1 / maxRocketPoints,
     windowHeightDifference = 1 / 35;
 
