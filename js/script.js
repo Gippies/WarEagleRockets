@@ -179,9 +179,14 @@ $(document)
     .on("mousemove", function (e) {
         if (clickingRocket === false) return;
 
-        // Do Stuff
-        if (dragStartPosition - e.pageY >= rocketYStartPosition * rocketPoints[parseInt($rocketToDrag.data("rocket-number"))] * rocketHeightDifference) {
+        if (dragStartPosition - e.pageY >= rocketYStartPosition * rocketHeightDifference) {
             rocketPoints[parseInt($rocketToDrag.data("rocket-number"))]++;
+            dragStartPosition = e.pageY;
+            rebuildScreen();
+        }
+        else if (e.pageY - dragStartPosition >= rocketYStartPosition * rocketHeightDifference) {
+            rocketPoints[parseInt($rocketToDrag.data("rocket-number"))]--;
+            dragStartPosition = e.pageY;
             rebuildScreen();
         }
     });
