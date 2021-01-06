@@ -155,6 +155,8 @@ $(window).on("load resize", function () {
     rebuildScreen();
 });
 
+
+// This section is for making the rockets draggable. From here...
 $rocket.attr("draggable", false);
 $('.fire').attr("draggable", false);
 
@@ -173,29 +175,35 @@ $(document)
     .on("mousemove", function (e) {
         if (clickingRocket === false) return;
 
-        let rocketNumber = parseInt($rocketToDrag.data("rocket-number"));
+        let rocketNumber = parseInt($rocketToDrag.data("rocket-number")),
+            rocketMoved = false;
         if (dragStartPosition - e.pageY >= Math.round(rocketYStartPosition * rocketHeightDifference)) {
-            rocketPoints[rocketNumber] += Math.round((dragStartPosition - e.pageY) / (rocketYStartPosition * rocketHeightDifference));
+            rocketPoints[rocketNumber] += Math.round((dragStartPosition - e.pageY) / Math.round(rocketYStartPosition * rocketHeightDifference));
             if (rocketPoints[rocketNumber] > maxRocketPoints)
                 rocketPoints[rocketNumber] = maxRocketPoints;
             dragStartPosition = e.pageY;
+            rocketMoved = true;
         }
         else if (e.pageY - dragStartPosition >= Math.round(rocketYStartPosition * rocketHeightDifference)) {
-            rocketPoints[rocketNumber] -= Math.round((e.pageY - dragStartPosition) / (rocketYStartPosition * rocketHeightDifference));
+            rocketPoints[rocketNumber] -= Math.round((e.pageY - dragStartPosition) / Math.round(rocketYStartPosition * rocketHeightDifference));
             if (rocketPoints[rocketNumber] < 0)
                 rocketPoints[rocketNumber] = 0;
             dragStartPosition = e.pageY;
+            rocketMoved = true;
         }
 
-        $rocketToDrag.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
-        $($rocketToDrag.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
-        let $fire = $($rocketToDrag.data("fire-id"));
-        $fire.css("top", (parseInt($rocketToDrag.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
-        if (rocketPoints[rocketNumber] === 0)
-            $fire.hide();
-        else
-            $fire.show();
+        if (rocketMoved) {
+            $rocketToDrag.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
+            $($rocketToDrag.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
+            let $fire = $($rocketToDrag.data("fire-id"));
+            $fire.css("top", (parseInt($rocketToDrag.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
+            if (rocketPoints[rocketNumber] === 0)
+                $fire.hide();
+            else
+                $fire.show();
+        }
     });
+// ...to here
 
 // This is for the "Add Rocket" and "Remove Rocket" buttons.
 $('.btn-rockets').on("click", function (e) {
