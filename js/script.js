@@ -23,7 +23,10 @@ const $addRocketBtn = $('#addRocketBtn'),
 
 let rocketPoints = {},
     rocketYStartPosition = -1,
-    numRockets = 4;
+    numRockets = 4,
+    clickingRocket = false,
+    dragStartPosition = -1,
+    $rocketToDrag = undefined;
 
 /**
  * Clears the screen of rockets and their buttons and then re-creates them and places them in their appropriate
@@ -51,6 +54,7 @@ function rebuildScreen() {
             $newScoreLbl = $scoreLbl.clone();
 
         $newRocket.attr("id", "rocket" + i.toString());
+        $newRocket.attr("data-rocket-number", i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
         rocketYStartPosition = $(window).height() * btnYStartPosition * windowHeightDifference - 2 * plusOneBtnHeight - rocketHeight;
         if (rocketPoints[i] === undefined) {
@@ -156,6 +160,31 @@ function rebuildScreen() {
 $(window).on("load resize", function () {
     rebuildScreen();
 });
+
+$rocket.attr("draggable", false);
+$('.fire').attr("draggable", false);
+
+$rocketsDiv
+    .on("mousedown", ".rocket", function (e) {
+        e.preventDefault();
+        clickingRocket = true;
+        $rocketToDrag = $(e.target);
+        dragStartPosition = e.pageY;
+    });
+
+$(document)
+    .on("mouseup", function() {
+        clickingRocket = false;
+    })
+    .on("mousemove", function (e) {
+        if (clickingRocket === false) return;
+
+        // Do Stuff
+        if (dragStartPosition - e.pageY >= rocketYStartPosition * rocketPoints[parseInt($rocketToDrag.data("rocket-number"))] * rocketHeightDifference) {
+            rocketPoints[parseInt($rocketToDrag.data("rocket-number"))]++;
+            rebuildScreen();
+        }
+    });
 
 // This is for the "Add Rocket" and "Remove Rocket" buttons.
 $('.btn-rockets').on("click", function (e) {
