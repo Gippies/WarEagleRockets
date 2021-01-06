@@ -55,23 +55,22 @@ function rebuildScreen() {
 
         $newRocket.attr("id", "rocket" + i.toString());
         $newRocket.attr("data-rocket-number", i.toString());
+        $newRocket.attr("data-fire-id", "#fire" + i.toString());
+        $newRocket.attr("data-score-id", "#scoreLbl" + i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
         rocketYStartPosition = $(window).height() * btnYStartPosition * windowHeightDifference - 2 * plusOneBtnHeight - rocketHeight;
         if (rocketPoints[i] === undefined) {
             $newRocket.css("top", rocketYStartPosition.toString() + "px");
             rocketPoints[i] = 0;
         }
-        else {
+        else
             $newRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[i] * rocketHeightDifference).toString() + "px");
-        }
 
         $newFire.attr("id", "fire" + i.toString());
-        if (rocketPoints[i] === 0) {
+        if (rocketPoints[i] === 0)
             $newFire.hide();
-        }
-        else {
+        else
             $newFire.show();
-        }
         const newFireX = parseInt($newRocket.css("left")) + rocketWidth / 4,
             newFireY = parseInt($newRocket.css("top")) + rocketHeight - firePositionOffset;
         $newFire.css({"left": newFireX.toString() + "px", "top": newFireY.toString() + "px"});
@@ -136,24 +135,19 @@ function rebuildScreen() {
             $currentFire = $($(this).data("fire-id")),
             $currentScoreLbl = $($(this).data("score-id")),
             i = parseInt($(this).data("rocket-number"));
-        if ($(this).hasClass("btn-plus-one") && rocketPoints[i] < maxRocketPoints) {
+        if ($(this).hasClass("btn-plus-one") && rocketPoints[i] < maxRocketPoints)
             rocketPoints[i]++;
-        }
-        else if ($(this).hasClass("btn-minus-one") && rocketPoints[i] > 0) {
+        else if ($(this).hasClass("btn-minus-one") && rocketPoints[i] > 0)
             rocketPoints[i]--;
-        }
-        else if ($(this).hasClass("btn-reset")) {
+        else if ($(this).hasClass("btn-reset"))
             rocketPoints[i] = 0;
-        }
         $currentScoreLbl.text("Score: " + rocketPoints[i].toString());
         $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[i] * rocketHeightDifference).toString() + "px");
         $currentFire.css("top", (parseInt($currentRocket.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
-        if (rocketPoints[i] === 0) {
+        if (rocketPoints[i] === 0)
             $currentFire.hide();
-        }
-        else {
+        else
             $currentFire.show();
-        }
     });
 }
 
@@ -179,27 +173,37 @@ $(document)
     .on("mousemove", function (e) {
         if (clickingRocket === false) return;
 
-        if (dragStartPosition - e.pageY >= rocketYStartPosition * rocketHeightDifference) {
-            rocketPoints[parseInt($rocketToDrag.data("rocket-number"))]++;
+        let rocketNumber = parseInt($rocketToDrag.data("rocket-number"));
+        if (dragStartPosition - e.pageY >= Math.round(rocketYStartPosition * rocketHeightDifference)) {
+            rocketPoints[rocketNumber] += Math.round((dragStartPosition - e.pageY) / (rocketYStartPosition * rocketHeightDifference));
+            if (rocketPoints[rocketNumber] > maxRocketPoints)
+                rocketPoints[rocketNumber] = maxRocketPoints;
             dragStartPosition = e.pageY;
-            rebuildScreen();
         }
-        else if (e.pageY - dragStartPosition >= rocketYStartPosition * rocketHeightDifference) {
-            rocketPoints[parseInt($rocketToDrag.data("rocket-number"))]--;
+        else if (e.pageY - dragStartPosition >= Math.round(rocketYStartPosition * rocketHeightDifference)) {
+            rocketPoints[rocketNumber] -= Math.round((e.pageY - dragStartPosition) / (rocketYStartPosition * rocketHeightDifference));
+            if (rocketPoints[rocketNumber] < 0)
+                rocketPoints[rocketNumber] = 0;
             dragStartPosition = e.pageY;
-            rebuildScreen();
         }
+
+        $rocketToDrag.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
+        $($rocketToDrag.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
+        let $fire = $($rocketToDrag.data("fire-id"));
+        $fire.css("top", (parseInt($rocketToDrag.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
+        if (rocketPoints[rocketNumber] === 0)
+            $fire.hide();
+        else
+            $fire.show();
     });
 
 // This is for the "Add Rocket" and "Remove Rocket" buttons.
 $('.btn-rockets').on("click", function (e) {
     e.preventDefault();
-    if ($(this).hasClass("btn-plus-one")) {
+    if ($(this).hasClass("btn-plus-one"))
         numRockets++;
-    }
-    else if ($(this).hasClass("btn-minus-one") && numRockets > 2) {
+    else if ($(this).hasClass("btn-minus-one") && numRockets > 2)
         numRockets--;
-    }
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
     rocketPoints = {};
     rebuildScreen();
