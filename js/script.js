@@ -60,8 +60,6 @@ function rebuildScreen() {
         $newRocket.attr("data-score-id", "#scoreLbl" + i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
         rocketYStartPosition = newBtnY - 2 * plusOneBtnHeight - rocketHeight;
-        if (rocketPoints[i] === undefined)
-            rocketPoints[i] = 0;
 
         $newFire.attr("id", "fire" + i.toString());
         $newFire.css("left", (parseInt($newRocket.css("left")) + rocketWidth / 4).toString() + "px");
@@ -136,6 +134,10 @@ function rebuildScreen() {
 function moveRocket($currentRocket) {
     const $currentFire = $($currentRocket.data("fire-id")),
         rocketNumber = parseInt($currentRocket.data("rocket-number"));
+
+    if (rocketPoints[rocketNumber] === undefined)
+        rocketPoints[rocketNumber] = 0;
+
     $($currentRocket.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
     $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
     $currentFire.css("top", (parseInt($currentRocket.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
@@ -199,15 +201,13 @@ $('.btn-rockets').on("click", function (e) {
     else if ($(this).hasClass("btn-minus-one") && numRockets > 2)
         numRockets--;
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
-    // This resets all the points for all the rockets.
-    rocketPoints = {};
     rebuildScreen();
 });
 
 $resetAllBtn.on("click", function (e) {
     e.preventDefault();
+    rocketPoints = {};
     for (let i = 0; i < numRockets; i++) {
-        rocketPoints[i] = 0;
         moveRocket($('#rocket' + i.toString()));
     }
 });
