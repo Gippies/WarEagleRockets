@@ -39,7 +39,8 @@ function rebuildScreen() {
         resetBtnWidth = parseInt($('.btn-reset').css("width")),
         $lblTeam = $('.lbl-team'),
         teamLblWidth = parseInt($lblTeam.css("width")),
-        teamLblHeight = parseInt($lblTeam.css("height"));
+        teamLblHeight = parseInt($lblTeam.css("height")),
+        newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference;
 
     $rocketsDiv.empty();
     $buttonsDiv.empty();
@@ -58,23 +59,12 @@ function rebuildScreen() {
         $newRocket.attr("data-fire-id", "#fire" + i.toString());
         $newRocket.attr("data-score-id", "#scoreLbl" + i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
-        const newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference;
         rocketYStartPosition = newBtnY - 2 * plusOneBtnHeight - rocketHeight;
-        if (rocketPoints[i] === undefined) {
-            $newRocket.css("top", rocketYStartPosition.toString() + "px");
+        if (rocketPoints[i] === undefined)
             rocketPoints[i] = 0;
-        }
-        else
-            $newRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[i] * rocketHeightDifference).toString() + "px");
 
         $newFire.attr("id", "fire" + i.toString());
-        if (rocketPoints[i] === 0)
-            $newFire.hide();
-        else
-            $newFire.show();
-        const newFireX = parseInt($newRocket.css("left")) + rocketWidth / 4,
-            newFireY = parseInt($newRocket.css("top")) + rocketHeight - firePositionOffset;
-        $newFire.css({"left": newFireX.toString() + "px", "top": newFireY.toString() + "px"});
+        $newFire.css("left", (parseInt($newRocket.css("left")) + rocketWidth / 4).toString() + "px");
 
         $newPlusOneBtn.attr("id", "plusOneBtn" + i.toString());
         $newPlusOneBtn.attr("data-rocket-id", "#rocket" + i.toString());
@@ -108,7 +98,6 @@ function rebuildScreen() {
         $newTeamLbl.css({"left": newTeamLblX.toString() + "px", "top": newTeamLblY.toString() + "px"});
 
         $newScoreLbl.attr("id", "scoreLbl" + i.toString());
-        $newScoreLbl.text("Score: " + rocketPoints[i].toString());
         $newScoreLbl.css({"left": newBtnX.toString() + "px", "top": newTeamLblY.toString() + "px"});
 
         $rocketsDiv.append($newFire);
@@ -118,10 +107,11 @@ function rebuildScreen() {
         $buttonsDiv.append($newResetBtn);
         $buttonsDiv.append($newTeamLbl);
         $buttonsDiv.append($newScoreLbl);
+
+        moveRocket($newRocket);
     }
 
-    const newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference,
-        newRemoveBtnY = newBtnY - parseInt($removeRocketBtn.css("height")) - btnPositionOffset,
+    const newRemoveBtnY = newBtnY - parseInt($removeRocketBtn.css("height")) - btnPositionOffset,
         newAddBtnY = newRemoveBtnY - parseInt($addRocketBtn.css("height")) - btnPositionOffset;
     $addRocketBtn.css("top", newAddBtnY.toString() + "px");
     $removeRocketBtn.css("top", newRemoveBtnY.toString() + "px");
