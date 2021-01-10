@@ -39,6 +39,9 @@ if (cookieNumRockets !== "" && cookieNumRockets !== undefined) {
     numRockets = JSON.parse(cookieNumRockets);
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
 }
+// This Cookies.set is added so the numRockets cookie doesn't unexpectedly expire before the rocketPoints cookie (which refreshes
+// every time the browser is loaded/refreshed during rebuildScreen)
+Cookies.set('numRockets', JSON.stringify(numRockets), {secure: true, expires: daysToCookiesExpire});
 
 /**
  * Clears the screen of rockets and their buttons and then re-creates them and places them in their appropriate
