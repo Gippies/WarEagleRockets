@@ -12,6 +12,7 @@ const $addRocketBtn = $('#addRocketBtn'),
     $minusOneBtn = $('#minusOneBtn'),
     $resetBtn = $('#resetBtn'),
     $rocket = $('.rocket'),
+    daysToCookiesExpire = 1,
     rocketWidth = parseInt($rocket.css("width")),
     rocketHeight = parseInt($rocket.css("height")),
     firePositionOffset = 25,
@@ -27,6 +28,17 @@ let rocketPoints = {},
     clickingRocket = false,
     dragStartPosition = -1,
     $rocketToDrag = undefined;
+
+const cookieRocketPoints = Cookies.get('rocketPoints');
+if (cookieRocketPoints !== "" && cookieRocketPoints !== undefined) {
+    rocketPoints = JSON.parse(cookieRocketPoints);
+}
+
+const cookieNumRockets = Cookies.get('numRockets');
+if (cookieNumRockets !== "" && cookieNumRockets !== undefined) {
+    numRockets = JSON.parse(cookieNumRockets);
+    $rocketNumLbl.text("Rockets: " + numRockets.toString());
+}
 
 /**
  * Clears the screen of rockets and their buttons and then re-creates them and places them in their appropriate
@@ -138,6 +150,8 @@ function moveRocket($currentRocket) {
     if (rocketPoints[rocketNumber] === undefined)
         rocketPoints[rocketNumber] = 0;
 
+    Cookies.set('rocketPoints', JSON.stringify(rocketPoints), {secure: true, expires: daysToCookiesExpire});
+
     $($currentRocket.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
     $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
     $currentFire.css("top", (parseInt($currentRocket.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
@@ -200,6 +214,8 @@ $('.btn-rockets').on("click", function (e) {
         numRockets++;
     else if ($(this).hasClass("btn-minus-one") && numRockets > 2)
         numRockets--;
+
+    Cookies.set('numRockets', JSON.stringify(numRockets), {secure: true, expires: daysToCookiesExpire});
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
     rebuildScreen();
 });
