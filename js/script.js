@@ -58,7 +58,8 @@ function rebuildScreen() {
         $newRocket.attr("data-fire-id", "#fire" + i.toString());
         $newRocket.attr("data-score-id", "#scoreLbl" + i.toString());
         $newRocket.css("left", (($(window).width() * (1 / 12) + rocketSeparation * i) - rocketWidth * i / (numRockets - 1)).toString() + "px");
-        rocketYStartPosition = $(window).height() * btnYStartPosition * windowHeightDifference - 2 * plusOneBtnHeight - rocketHeight;
+        const newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference;
+        rocketYStartPosition = newBtnY - 2 * plusOneBtnHeight - rocketHeight;
         if (rocketPoints[i] === undefined) {
             $newRocket.css("top", rocketYStartPosition.toString() + "px");
             rocketPoints[i] = 0;
@@ -81,7 +82,6 @@ function rebuildScreen() {
         $newPlusOneBtn.attr("data-fire-id", "#fire" + i.toString());
         $newPlusOneBtn.attr("data-rocket-number", i.toString());
         const newBtnX = parseInt($newRocket.css("left")) + rocketWidth / 2,
-            newBtnY = $(window).height() * btnYStartPosition * windowHeightDifference,
             newPlusBtnY = newBtnY - plusOneBtnHeight - btnPositionOffset;
         $newPlusOneBtn.css({"left": newBtnX.toString() + "px", "top": newPlusBtnY.toString() + "px"});
 
