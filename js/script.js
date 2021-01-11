@@ -121,7 +121,7 @@ function rebuildScreen() {
         $buttonsDiv.append($newTeamLbl);
         $buttonsDiv.append($newScoreLbl);
 
-        moveRocket($newRocket);
+        moveRocket($newRocket, false);
     }
 
     const newRemoveBtnY = newBtnY - parseInt($removeRocketBtn.css("height")) - btnPositionOffset,
@@ -142,11 +142,11 @@ function rebuildScreen() {
             rocketPoints[i]--;
         else if ($(this).hasClass("btn-reset"))
             rocketPoints[i] = 0;
-        moveRocket($currentRocket);
+        moveRocket($currentRocket, true);
     });
 }
 
-function moveRocket($currentRocket) {
+function moveRocket($currentRocket, isAnimate) {
     const $currentFire = $($currentRocket.data("fire-id")),
         rocketNumber = parseInt($currentRocket.data("rocket-number"));
 
@@ -156,8 +156,20 @@ function moveRocket($currentRocket) {
     Cookies.set('rocketPoints', JSON.stringify(rocketPoints), cookieOptions);
 
     $($currentRocket.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
-    $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
-    $currentFire.css("top", (parseInt($currentRocket.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
+    if (isAnimate) {
+        $currentRocket.animate({"top": (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px"}, {
+            duration: 100,
+            easing: "linear",
+            step: function(now) {
+                $currentFire.css("top", now + rocketHeight - firePositionOffset);
+            }
+        });
+    }
+    else {
+        $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
+        $currentFire.css("top", (parseInt($currentRocket.css("top")) + rocketHeight - firePositionOffset).toString() + "px");
+    }
+
     if (rocketPoints[rocketNumber] === 0)
         $currentFire.hide();
     else
@@ -206,7 +218,7 @@ $(document)
         }
 
         if (rocketMoved)
-            moveRocket($rocketToDrag);
+            moveRocket($rocketToDrag, false);
     });
 // ...to here
 
@@ -227,6 +239,6 @@ $resetAllBtn.on("click", function (e) {
     e.preventDefault();
     rocketPoints = {};
     for (let i = 0; i < numRockets; i++) {
-        moveRocket($('#rocket' + i.toString()));
+        moveRocket($('#rocket' + i.toString()), true);
     }
 });
