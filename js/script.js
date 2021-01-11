@@ -14,7 +14,6 @@ const $addRocketBtn = $('#addRocketBtn'),
     $rocket = $('.rocket'),
     rocketWidth = parseInt($rocket.css("width")),
     rocketHeight = parseInt($rocket.css("height")),
-    cookieOptions = {secure: true, expires: 1, path: ''},  // 'expires' is in days. Can be set to a fraction of a day.
     firePositionOffset = 25,
     btnPositionOffset = 10,
     btnYStartPosition = 33,
@@ -29,19 +28,17 @@ let rocketPoints = {},
     dragStartPosition = -1,
     $rocketToDrag = undefined;
 
-const cookieRocketPoints = Cookies.get('rocketPoints');
-if (cookieRocketPoints !== "" && cookieRocketPoints !== undefined) {
-    rocketPoints = JSON.parse(cookieRocketPoints);
+const storageRocketPoints = localStorage.rocketPoints;
+if (storageRocketPoints !== "" && storageRocketPoints !== undefined) {
+    rocketPoints = JSON.parse(storageRocketPoints);
 }
 
-const cookieNumRockets = Cookies.get('numRockets');
-if (cookieNumRockets !== "" && cookieNumRockets !== undefined) {
-    numRockets = JSON.parse(cookieNumRockets);
+const storageNumRockets = localStorage.numRockets;
+if (storageNumRockets !== "" && storageNumRockets !== undefined) {
+    numRockets = JSON.parse(storageNumRockets);
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
 }
-// This Cookies.set is added so the numRockets cookie doesn't unexpectedly expire before the rocketPoints cookie (which refreshes
-// every time the browser is loaded/refreshed during rebuildScreen)
-Cookies.set('numRockets', JSON.stringify(numRockets), cookieOptions);
+localStorage.numRockets = JSON.stringify(numRockets);
 
 /**
  * Clears the screen of rockets and their buttons and then re-creates them and places them in their appropriate
@@ -153,7 +150,7 @@ function moveRocket($currentRocket, isAnimate) {
     if (rocketPoints[rocketNumber] === undefined)
         rocketPoints[rocketNumber] = 0;
 
-    Cookies.set('rocketPoints', JSON.stringify(rocketPoints), cookieOptions);
+    localStorage.rocketPoints = JSON.stringify(rocketPoints);
 
     $($currentRocket.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
     if (isAnimate) {
@@ -230,7 +227,7 @@ $('.btn-rockets').on("click", function (e) {
     else if ($(this).hasClass("btn-minus-one") && numRockets > 2)
         numRockets--;
 
-    Cookies.set('numRockets', JSON.stringify(numRockets), cookieOptions);
+    localStorage.numRockets = JSON.stringify(numRockets);
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
     rebuildScreen();
 });
