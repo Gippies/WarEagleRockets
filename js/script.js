@@ -12,9 +12,9 @@ const $addRocketBtn = $('#addRocketBtn'),
     $minusOneBtn = $('#minusOneBtn'),
     $resetBtn = $('#resetBtn'),
     $rocket = $('.rocket'),
-    daysToCookiesExpire = 1,
     rocketWidth = parseInt($rocket.css("width")),
     rocketHeight = parseInt($rocket.css("height")),
+    cookieOptions = {secure: true, expires: 1, path: ''},  // 'expires' is in days. Can be set to a fraction of a day.
     firePositionOffset = 25,
     btnPositionOffset = 10,
     btnYStartPosition = 33,
@@ -41,7 +41,7 @@ if (cookieNumRockets !== "" && cookieNumRockets !== undefined) {
 }
 // This Cookies.set is added so the numRockets cookie doesn't unexpectedly expire before the rocketPoints cookie (which refreshes
 // every time the browser is loaded/refreshed during rebuildScreen)
-Cookies.set('numRockets', JSON.stringify(numRockets), {secure: true, expires: daysToCookiesExpire});
+Cookies.set('numRockets', JSON.stringify(numRockets), cookieOptions);
 
 /**
  * Clears the screen of rockets and their buttons and then re-creates them and places them in their appropriate
@@ -153,7 +153,7 @@ function moveRocket($currentRocket) {
     if (rocketPoints[rocketNumber] === undefined)
         rocketPoints[rocketNumber] = 0;
 
-    Cookies.set('rocketPoints', JSON.stringify(rocketPoints), {secure: true, expires: daysToCookiesExpire});
+    Cookies.set('rocketPoints', JSON.stringify(rocketPoints), cookieOptions);
 
     $($currentRocket.data("score-id")).text("Score: " + rocketPoints[rocketNumber].toString());
     $currentRocket.css("top", (rocketYStartPosition - rocketYStartPosition * rocketPoints[rocketNumber] * rocketHeightDifference).toString() + "px");
@@ -218,7 +218,7 @@ $('.btn-rockets').on("click", function (e) {
     else if ($(this).hasClass("btn-minus-one") && numRockets > 2)
         numRockets--;
 
-    Cookies.set('numRockets', JSON.stringify(numRockets), {secure: true, expires: daysToCookiesExpire});
+    Cookies.set('numRockets', JSON.stringify(numRockets), cookieOptions);
     $rocketNumLbl.text("Rockets: " + numRockets.toString());
     rebuildScreen();
 });
