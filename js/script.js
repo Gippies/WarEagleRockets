@@ -179,8 +179,8 @@ $(window).on("load resize", function () {
 
 
 // This section is for making the rockets draggable. From here...
-$rocket.attr("draggable", false);
-$('.fire').attr("draggable", false);
+$rocket.attr("draggable", "false");
+$('.fire').attr("draggable", "false");
 
 $rocketsDiv
     .on("mousedown", ".rocket", function (e) {
