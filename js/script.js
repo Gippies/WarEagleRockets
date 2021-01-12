@@ -168,9 +168,9 @@ function moveRocket($currentRocket, isAnimate) {
     }
 
     if (rocketPoints[rocketNumber] === 0)
-        $currentFire.hide().css("height", "0");
+        $currentFire.hide();
     else
-        $currentFire.show().animate({"height": "80px"}, {duration: 200, easing: "linear"});
+        $currentFire.show();
 }
 
 $(window).on("load resize", function () {

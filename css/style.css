@@ -21,9 +21,23 @@ h5 {
     width: 200px;
     height: 300px;
 }
+
+@keyframes fire-animation {
+    from {
+        height: 0;
+    }
+    to {
+        height: 80px;
+    }
+}
+
 .fire {
     transform: rotate(90deg);
     position: absolute;
     width: 100px;
-    height: 0;
+    height: 80px;
+    animation-name: fire-animation;
+    animation-duration: 100ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
 }
